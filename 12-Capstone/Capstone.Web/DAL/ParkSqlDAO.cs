@@ -17,6 +17,47 @@ namespace Capstone.Web.DAL
         }
 
         /// <summary>
+        /// Get park by id and display all info as well as the 5 day forecast for that specific park
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Park GetParkById(string id)
+        {
+            Park park = null;
+            try
+            {
+                // Create a new connection object
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    // Open the connection
+                    conn.Open();
+
+                    string sql =
+@"select * from park p
+join weather w on p.parkCode = w.parkCode
+where p.parkCode = @code";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@code", id);
+
+                    // Execute the command
+                    SqlDataReader rdr = cmd.ExecuteReader();
+
+                    // Loop through each row
+                    if (rdr.Read())
+                    {
+                        // Create a park
+                        park = RowToObject(rdr);
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+            return park;
+        }
+
+        /// <summary>
         /// Returns all of the parks
         /// </summary>
         /// <returns></returns>
@@ -54,46 +95,7 @@ namespace Capstone.Web.DAL
 
             return output;
         }
-        /// <summary>
-        /// Get park by id and display all info as well as the 5 day forecast for that specific park
-        /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public Park GetParkById(string code)
-        {
-            Park park = null;
-            try
-            {
-                // Create a new connection object
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    // Open the connection
-                    conn.Open();
 
-                    string sql =
-@"select * from park p
-join weather w on p.parkCode = w.parkCode
-where p.parkCode = @code";
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@code", code);
-
-                    // Execute the command
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    // Loop through each row
-                    if (reader.Read())
-                    {
-                        // Create a park
-                        park = RowToObject(reader);
-                    }
-                }
-            }
-            catch (SqlException)
-            {
-                throw;
-            }
-            return park;
-        }
 
         private Park RowToObject(SqlDataReader rdr)
         {

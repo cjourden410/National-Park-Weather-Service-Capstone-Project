@@ -1,0 +1,46 @@
+﻿@model Park
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h2>Detail</h2>
+
+<section class="centeredPanel">
+    <form asp-controller="Home" asp-action="Detail">
+        <table class="table table-striped">
+            <tr>
+                <td><img src="~/images/parks/@(Model.ParkCode).jpg" /></a></td>
+            </tr>
+            <tr>
+                <td>
+                    <h3 class="ParkName">@Model.ParkName - @Model.State</h3>
+                    <p>@Model.ParkDescription</p>
+                    <p>Total Acreage: @(Model.Acreage.ToString("N0")) acres</p>
+                    <p>Total Elevation: @(Model.ElevationInFeet.ToString("N0")) feet</p>
+                    <p>Total Trail Length: @Model.MilesOfTrail miles</p>
+                    <p>Campsites on Grounds: @(Model.NumberOfCampsites.ToString("N0"))</p>
+                    <p>Climate Type: @Model.Climate</p>
+                    <p>Year Founded: @Model.YearFounded</p>
+                    <p>Annual Visitor Count: @(Model.AnnualVisitorCount.ToString("N0"))</p>
+                    <p>"@Model.InspirationalQuote"</p>
+                    <p>- @Model.InspirationalQuoteSource</p>
+                    <p>Park Entry Fee: $@Model.EntryFee</p>
+                    <p>Number of Animal Species: @Model.NumberOfAnimalSpecies</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>Today</h5> @*TODO: Get the list of days 1 - 5 to show up and then have the hightemp, low temp and advisory info*@
+                    @if (Model.Forecast == "partly cloudy")
+                    {
+                        <img src="~/images/weather/partlyCloudy.png" />
+                    }
+                    else
+                    {
+                        <img src="~/images/weather/@(Model.Forecast).png" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>
