@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Capstone.Web.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,9 @@ namespace Capstone.Web
             connectionString = Configuration.GetConnectionString("Default");
 
             // TODO: Add AddTransient for DAO(s)
+            services.AddTransient<IParkSqlDAO, ParkSqlDAO>((x) => new ParkSqlDAO(connectionString));
+            services.AddTransient<ISurveyResultSqlDAO, SurveyResultSqlDAO>((x) => new SurveyResultSqlDAO(connectionString));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
