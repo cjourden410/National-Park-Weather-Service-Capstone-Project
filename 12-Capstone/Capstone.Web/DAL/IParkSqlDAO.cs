@@ -7,5 +7,6 @@ namespace Capstone.Web.DAL
     {
         IList<Park> GetAllParks();
         Park GetParkById(string code);
+        IList<Weather> GetWeatherByPark(string id);
     }
 }

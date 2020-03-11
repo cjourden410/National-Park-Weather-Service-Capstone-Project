@@ -26,5 +26,6 @@ namespace Capstone.Web.Models
         public int LowTemp { get; set; }
         public int HighTemp { get; set; }
         public string Forecast { get; set; }
+        public IList<Weather> WeatherList { get; set; } // TESTING IF THIS WORKS OR NOT
     }
 }

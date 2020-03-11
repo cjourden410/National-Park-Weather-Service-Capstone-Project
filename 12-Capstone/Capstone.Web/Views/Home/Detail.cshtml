@@ -1,4 +1,4 @@
-﻿@model Park
+﻿@model ParkSearch
 @{
     ViewData["Title"] = "Detail";
 }
@@ -9,38 +9,56 @@
     <form asp-controller="Home" asp-action="Detail">
         <table class="table table-striped">
             <tr>
-                <td><img src="~/images/parks/@(Model.ParkCode).jpg" /></a></td>
+                <td><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
             </tr>
             <tr>
                 <td>
-                    <h3 class="ParkName">@Model.ParkName - @Model.State</h3>
-                    <p>@Model.ParkDescription</p>
-                    <p>Total Acreage: @(Model.Acreage.ToString("N0")) acres</p>
-                    <p>Total Elevation: @(Model.ElevationInFeet.ToString("N0")) feet</p>
-                    <p>Total Trail Length: @Model.MilesOfTrail miles</p>
-                    <p>Campsites on Grounds: @(Model.NumberOfCampsites.ToString("N0"))</p>
-                    <p>Climate Type: @Model.Climate</p>
-                    <p>Year Founded: @Model.YearFounded</p>
-                    <p>Annual Visitor Count: @(Model.AnnualVisitorCount.ToString("N0"))</p>
-                    <p>"@Model.InspirationalQuote"</p>
-                    <p>- @Model.InspirationalQuoteSource</p>
-                    <p>Park Entry Fee: $@Model.EntryFee</p>
-                    <p>Number of Animal Species: @Model.NumberOfAnimalSpecies</p>
+                    <h3 class="ParkName">@Model.park.ParkName - @Model.park.State</h3>
+                    <p>@Model.park.ParkDescription</p>
+                    <p>Total Acreage: @(Model.park.Acreage.ToString("N0")) acres</p>
+                    <p>Total Elevation: @(Model.park.ElevationInFeet.ToString("N0")) feet</p>
+                    <p>Total Trail Length: @Model.park.MilesOfTrail miles</p>
+                    <p>Campsites on Grounds: @(Model.park.NumberOfCampsites.ToString("N0"))</p>
+                    <p>Climate Type: @Model.park.Climate</p>
+                    <p>Year Founded: @Model.park.YearFounded</p>
+                    <p>Annual Visitor Count: @(Model.park.AnnualVisitorCount.ToString("N0"))</p>
+                    <p>"@Model.park.InspirationalQuote"</p>
+                    <p>- @Model.park.InspirationalQuoteSource</p>
+                    <p>Park Entry Fee: $@Model.park.EntryFee</p>
+                    <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <h5>Today</h5> @*TODO: Get the list of days 1 - 5 to show up and then have the hightemp, low temp and advisory info*@
-                    @if (Model.Forecast == "partly cloudy")
+                    <h5>Today</h5>
+                    @if (Model.WeatherList[0].Forecast == "partly cloudy")
                     {
                         <img src="~/images/weather/partlyCloudy.png" />
                     }
                     else
                     {
-                        <img src="~/images/weather/@(Model.Forecast).png" />
+                        <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
                     }
+                    <p>High @Model.WeatherList[0].HighTemp Low @Model.WeatherList[0].LowTemp</p>
+                    <p>PLACEHOLDER FOR RECOMMENDATIONS BASED ON WEATHER</p>
                 </td>
             </tr>
+            @for (int i = 1; i < Model.WeatherList.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @if (Model.WeatherList[i].Forecast == "partly cloudy")
+                        {
+                            <img src="~/images/weather/partlyCloudy.png" />
+                        }
+                        else
+                        {
+                            <img src="~/images/weather/@(Model.WeatherList[i].Forecast).png" />
+                        }
+                    <p>High @Model.WeatherList[i].HighTemp Low @Model.WeatherList[i].LowTemp</p>
+                    </td>
+                </tr>
+            } @*use for loop instead have the image be at WeatherList[i]*@
         </table>
     </form>
 </section>

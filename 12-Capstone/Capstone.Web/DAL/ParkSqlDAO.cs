@@ -16,6 +16,42 @@ namespace Capstone.Web.DAL
             this.connectionString = connectionString;
         }
 
+        public IList<Weather> GetWeatherByPark(string id)
+        {
+            List<Weather> output = new List<Weather>();
+
+            try
+            {
+                // Create a new connection object
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    // Open the connection
+                    conn.Open();
+
+                    string sql =
+@"select * from weather where parkCode = @code";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@code", id);
+
+                    // Execute the command
+                    SqlDataReader rdr = cmd.ExecuteReader();
+
+                    // Loop through each row
+                    while (rdr.Read())
+                    {
+                        Weather weather = RowToObjectWeather(rdr);
+                        output.Add(weather);
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw;
+            }
+
+            return output;
+        }
+
         /// <summary>
         /// Get park by id and display all info as well as the 5 day forecast for that specific park
         /// </summary>
@@ -117,6 +153,18 @@ where p.parkCode = @code";
             park.EntryFee = Convert.ToInt32(rdr["entryFee"]);
             park.NumberOfAnimalSpecies = Convert.ToInt32(rdr["numberOfAnimalSpecies"]);
             return park;
+        }
+
+        private Weather RowToObjectWeather(SqlDataReader rdr)
+        {
+            // Create a park
+            Weather weather = new Weather();
+            weather.ParkCode = Convert.ToString(rdr["parkCode"]);
+            weather.FiveDayForecastValue = Convert.ToInt32(rdr["fiveDayForecastValue"]);
+            weather.LowTemp = Convert.ToInt32(rdr["low"]);
+            weather.HighTemp = Convert.ToInt32(rdr["high"]);
+            weather.Forecast = Convert.ToString(rdr["forecast"]);
+            return weather;
         }
     }
 }
