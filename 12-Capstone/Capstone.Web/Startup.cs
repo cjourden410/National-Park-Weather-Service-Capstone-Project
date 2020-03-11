@@ -13,6 +13,8 @@ namespace Capstone.Web
 {
     public class Startup
     {
+        // Add private connection string
+        private string connectionString;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,7 +32,13 @@ namespace Capstone.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // Added anti forgery token
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Define connection string here
+            connectionString = Configuration.GetConnectionString("Default");
+
+            // TODO: Add AddTransient for DAO(s)
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
