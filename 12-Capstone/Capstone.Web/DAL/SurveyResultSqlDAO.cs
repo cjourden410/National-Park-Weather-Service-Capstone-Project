@@ -32,7 +32,7 @@ namespace Capstone.Web.DAL
                     conn.Open();
 
                     string sql =
-@"select p.parkName, count(*) surveysSubmitted
+@"select p.parkName, count(sr.parkCode) surveysSubmitted
 from park p
 join survey_result sr on p.parkCode = sr.parkCode
 group by p.parkName";
@@ -44,7 +44,7 @@ group by p.parkName";
                     // Loop through each row
                     while (rdr.Read())
                     {
-                        Survey survey = RowToObject(rdr);
+                        Survey survey = RowToObjectAllSurveys(rdr);
                         output.Add(survey);
                     }
                 }
@@ -91,11 +91,21 @@ group by p.parkName";
         {
             // Create a survey
             Survey survey = new Survey();
-            survey.SurveyId = Convert.ToInt32(rdr["parkCode"]);
-            survey.ParkCode = Convert.ToString(rdr["parkName"]);
+            survey.SurveyId = Convert.ToInt32(rdr["surveyId"]);
+            survey.ParkCode = Convert.ToString(rdr["parkCode"]);
             survey.EmailAddress = Convert.ToString(rdr["state"]);
             survey.State = Convert.ToString(rdr["acreage"]);
             survey.ActivityLevel = Convert.ToString(rdr["elevationInFeet"]);
+            survey.SurveyCount = Convert.ToInt32(rdr["surveysSubmitted"]);
+            survey.ParkName = Convert.ToString(rdr["parkName"]);
+            return survey;
+        }
+
+        private Survey RowToObjectAllSurveys(SqlDataReader rdr)
+        {
+            // Create a survey
+            Survey survey = new Survey();
+            survey.ParkName = Convert.ToString(rdr["parkName"]);
             return survey;
         }
     }

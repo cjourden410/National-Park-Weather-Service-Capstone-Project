@@ -1,0 +1,21 @@
+﻿@model IList<Survey>
+@{
+    ViewData["Title"] = "FavParks";
+}
+
+<h2>Favorite Parks</h2>
+
+<section class="centeredPanel">
+    <table class="table table-striped">
+        @foreach (Survey survey in Model)
+        {
+            <tr>
+                <td>
+                    @*TODO: Add picture for specific park*@
+                    <p class="ParkName">Park Name: @survey.ParkName</p>
+                    <p>Surveys Submitted: @survey.SurveyCount</p>
+                </td>
+            </tr>
+        }
+    </table>
+</section>
