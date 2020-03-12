@@ -39,8 +39,16 @@
                     {
                         <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
                     }
-                    <p>High @Model.WeatherList[0].HighTemp Low @Model.WeatherList[0].LowTemp</p>
-                    <p>PLACEHOLDER FOR RECOMMENDATIONS BASED ON WEATHER</p>
+                    @if (Model.isFahrenheit == true)
+                    {
+                <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                    }
+                    else
+                    {
+                <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                    }
+
+                    <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
                 </td>
             </tr>
             @for (int i = 1; i < Model.WeatherList.Count; i++)
@@ -55,7 +63,15 @@
                         {
                             <img src="~/images/weather/@(Model.WeatherList[i].Forecast).png" />
                         }
-                        <p>High @Model.WeatherList[i].HighTemp Low @Model.WeatherList[i].LowTemp</p>
+                        @if (Model.isFahrenheit == true)
+                        {
+                    <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
+                        }
+                        else
+                        {
+                    <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
+                        }
+                        <p>@Model.GetAdvisory(Model.WeatherList[i])</p>
                     </td>
                 </tr>
             } @*use for loop instead have the image be at WeatherList[i]*@
