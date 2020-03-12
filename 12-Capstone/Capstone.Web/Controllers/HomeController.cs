@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Capstone.Web.Models;
 using Capstone.Web.DAL;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Capstone.Web.Controllers
 {
@@ -39,6 +41,13 @@ namespace Capstone.Web.Controllers
 
             ps.park = park;
             ps.WeatherList = parkDAO.GetWeatherByPark(id);
+
+            bool tempChoice = Convert.ToBoolean(HttpContext.Session.GetString("isFahrenheit"));
+            if (HttpContext.Session.GetString("isFahrenheit") == null)
+            {
+                tempChoice = true;
+            }
+            tempChoice = ps.isFahrenheit;
 
             return View(ps);
         }

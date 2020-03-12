@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Capstone.Web.Models
 {
@@ -15,7 +17,7 @@ namespace Capstone.Web.Models
         {
             return ($"{ conAdvisory[w.Forecast]} { tempAdvisory(w.HighTemp, w.LowTemp)}");
         }
-
+        // Gives advisory based on weather type
         public Dictionary<string, string> conAdvisory = new Dictionary<string, string>()
         {
             { "snow", "Be sure to pack snowshoes!" },
@@ -25,6 +27,7 @@ namespace Capstone.Web.Models
             { "partly cloudy", "Have an excellent day in this beautiful weather!" },
         };
 
+        // Gives advisory based on temperature
         public string tempAdvisory(int high, int low)
         {
             if (high > 75)
@@ -50,6 +53,7 @@ namespace Capstone.Web.Models
             return celcius;
         }
 
+        // User toggle value for displaying F or C
         public bool isFahrenheit { get; set; } = true;
     }
 }

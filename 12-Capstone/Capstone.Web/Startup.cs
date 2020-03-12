@@ -32,6 +32,14 @@ namespace Capstone.Web
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            // Sets up session for MVC
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Sets session expiration to 20 minuates
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.Cookie.HttpOnly = true;
+            });
 
             // Added anti forgery token
             services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -39,7 +47,7 @@ namespace Capstone.Web
             // Define connection string here
             connectionString = Configuration.GetConnectionString("Default");
 
-            
+
             services.AddTransient<IParkSqlDAO, ParkSqlDAO>((x) => new ParkSqlDAO(connectionString));
             services.AddTransient<ISurveyResultSqlDAO, SurveyResultSqlDAO>((x) => new SurveyResultSqlDAO(connectionString));
 
@@ -59,6 +67,9 @@ namespace Capstone.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            // Session configure
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

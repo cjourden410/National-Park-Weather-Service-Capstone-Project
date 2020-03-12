@@ -10,8 +10,8 @@
                 <tr>
                     <td><a asp-controller="Home" asp-action="Detail" asp-route-id="@park.ParkCode"><img src="~/images/parks/@(park.ParkCode).jpg" /></a></td>
                     <td>
-                        <p class="ParkName">@park.ParkName</p>
-                        <p>@park.ParkDescription</p>
+                        <p id="IndexParkName" class="ParkName">@park.ParkName</p>
+                        <p id="IndexParkDescription" @park.ParkDescription></p>
                     </td>
                 </tr>
             }

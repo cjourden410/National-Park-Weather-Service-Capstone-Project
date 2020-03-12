@@ -4,7 +4,7 @@
 }
 
 <h2>Detail</h2>
-
+@*Detail view of chosen park*@
 <section class="centeredPanel">
     <form asp-controller="Home" asp-action="Detail">
         <table class="table table-striped">
@@ -30,6 +30,7 @@
             </tr>
             <tr>
                 <td>
+                    @*Displays Day 1 of Forecast in Detail View*@
                     <h5>Today</h5>
                     @if (Model.WeatherList[0].Forecast == "partly cloudy")
                     {
@@ -41,15 +42,16 @@
                     }
                     @if (Model.isFahrenheit == true)
                     {
-                <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                        <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
                     }
                     else
                     {
-                <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                        <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
                     }
 
                     <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
                 </td>
+                @*Displays Days 2-5 of Forecast in Detail View*@
             </tr>
             @for (int i = 1; i < Model.WeatherList.Count; i++)
             {
@@ -65,16 +67,19 @@
                         }
                         @if (Model.isFahrenheit == true)
                         {
-                    <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
+                            <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
                         }
                         else
                         {
-                    <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
+                            <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
                         }
                         <p>@Model.GetAdvisory(Model.WeatherList[i])</p>
                     </td>
                 </tr>
             } @*use for loop instead have the image be at WeatherList[i]*@
         </table>
+        <div class="bootstrap-switch-square">
+            <input type="checkbox" data-toggle="switch" name="Resend" id="Resend" value="true" />
+        </div>
     </form>
 </section>
