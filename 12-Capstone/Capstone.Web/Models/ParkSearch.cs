@@ -54,6 +54,6 @@ namespace Capstone.Web.Models
         }
 
         // User toggle value for displaying F or C
-        public bool isFahrenheit { get; set; } = true;
+        public string TempChoice { get; set; } = "F";
     }
 }

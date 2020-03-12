@@ -33,7 +33,26 @@ namespace Capstone.Web.Controllers
         //    IList<Weather> weather = parkDAO.GetWeatherByPark(id);
         //    return View(park);
         //}
+        //[HttpGet]
+        //public IActionResult Detail(string id)
+        //{
+        //    Park park = parkDAO.GetParkById(id);
+        //    ParkSearch ps = new ParkSearch();
 
+        //    ps.park = park;
+        //    ps.WeatherList = parkDAO.GetWeatherByPark(id);
+        //    string tempChoice = HttpContext.Session.GetString("tempChoice");
+        //    if (tempChoice == null)
+        //    {
+        //        tempChoice = "F";
+        //        HttpContext.Session.SetString("tempChoice", tempChoice);
+        //    }
+        //    ps.TempChoice = tempChoice;
+
+        //    return View(ps);
+        //}
+
+        [HttpGet]
         public IActionResult Detail(string id)
         {
             Park park = parkDAO.GetParkById(id);
@@ -41,15 +60,33 @@ namespace Capstone.Web.Controllers
 
             ps.park = park;
             ps.WeatherList = parkDAO.GetWeatherByPark(id);
-
-            bool tempChoice = Convert.ToBoolean(HttpContext.Session.GetString("isFahrenheit"));
-            if (HttpContext.Session.GetString("isFahrenheit") == null)
+            string tempChoice = HttpContext.Session.GetString("tempChoice");
+            if (tempChoice == null)
             {
-                tempChoice = true;
+                tempChoice = "F";
+                HttpContext.Session.SetString("tempChoice", JsonConvert.SerializeObject(tempChoice));
             }
-            tempChoice = ps.isFahrenheit;
+            ps.TempChoice = tempChoice;
 
             return View(ps);
+        }
+
+        [HttpPost]
+        public IActionResult Detail(string id, ParkSearch ps)
+        {
+            if (ps.TempChoice == "F")
+            {
+                ps.TempChoice = "C";
+            }
+            else if (ps.TempChoice == "C")
+            {
+                ps.TempChoice = "F";
+            }
+            HttpContext.Session.SetString("tempChoice", ps.TempChoice);
+            ps.park = parkDAO.GetParkById(id);
+            ps.WeatherList = parkDAO.GetWeatherByPark(id);
+
+            return RedirectToAction("Detail");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -6,28 +6,31 @@
 <h2>Detail</h2>
 @*Detail view of chosen park*@
 <section class="centeredPanel">
-    <form asp-controller="Home" asp-action="Detail">
+
+    <table class="table table-striped">
+        <tr>
+            <td><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
+        </tr>
+        <tr>
+            <td>
+                <h3 class="ParkName">@Model.park.ParkName - @Model.park.State</h3>
+                <p>@Model.park.ParkDescription</p>
+                <p>Total Acreage: @(Model.park.Acreage.ToString("N0")) acres</p>
+                <p>Total Elevation: @(Model.park.ElevationInFeet.ToString("N0")) feet</p>
+                <p>Total Trail Length: @Model.park.MilesOfTrail miles</p>
+                <p>Campsites on Grounds: @(Model.park.NumberOfCampsites.ToString("N0"))</p>
+                <p>Climate Type: @Model.park.Climate</p>
+                <p>Year Founded: @Model.park.YearFounded</p>
+                <p>Annual Visitor Count: @(Model.park.AnnualVisitorCount.ToString("N0"))</p>
+                <p>"@Model.park.InspirationalQuote"</p>
+                <p>- @Model.park.InspirationalQuoteSource</p>
+                <p>Park Entry Fee: $@Model.park.EntryFee</p>
+                <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
+            </td>
+        </tr>
+    </table>
+    <form asp-controller="Home" asp-action="Detail" method="post">
         <table class="table table-striped">
-            <tr>
-                <td><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
-            </tr>
-            <tr>
-                <td>
-                    <h3 class="ParkName">@Model.park.ParkName - @Model.park.State</h3>
-                    <p>@Model.park.ParkDescription</p>
-                    <p>Total Acreage: @(Model.park.Acreage.ToString("N0")) acres</p>
-                    <p>Total Elevation: @(Model.park.ElevationInFeet.ToString("N0")) feet</p>
-                    <p>Total Trail Length: @Model.park.MilesOfTrail miles</p>
-                    <p>Campsites on Grounds: @(Model.park.NumberOfCampsites.ToString("N0"))</p>
-                    <p>Climate Type: @Model.park.Climate</p>
-                    <p>Year Founded: @Model.park.YearFounded</p>
-                    <p>Annual Visitor Count: @(Model.park.AnnualVisitorCount.ToString("N0"))</p>
-                    <p>"@Model.park.InspirationalQuote"</p>
-                    <p>- @Model.park.InspirationalQuoteSource</p>
-                    <p>Park Entry Fee: $@Model.park.EntryFee</p>
-                    <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
-                </td>
-            </tr>
             <tr>
                 <td>
                     @*Displays Day 1 of Forecast in Detail View*@
@@ -40,7 +43,7 @@
                     {
                         <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
                     }
-                    @if (Model.isFahrenheit == true)
+                    @if (Model.TempChoice == "F")
                     {
                         <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
                     }
@@ -65,7 +68,7 @@
                         {
                             <img src="~/images/weather/@(Model.WeatherList[i].Forecast).png" />
                         }
-                        @if (Model.isFahrenheit == true)
+                        @if (Model.TempChoice == "F")
                         {
                             <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
                         }
@@ -79,7 +82,7 @@
             } @*use for loop instead have the image be at WeatherList[i]*@
         </table>
         <div class="bootstrap-switch-square">
-            <input type="checkbox" data-toggle="switch" name="Resend" id="Resend" value="true" />
+            <input type="submit" value="Submit!" />
         </div>
     </form>
 </section>
