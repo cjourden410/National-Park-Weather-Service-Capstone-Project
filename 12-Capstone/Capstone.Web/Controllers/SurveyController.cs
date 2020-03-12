@@ -38,7 +38,7 @@ namespace Capstone.Web.Controllers
 
         public IActionResult FavParks()
         {
-            IList<Survey> parks = surveyResultDAO.GetAllSurveyResults();
+            IList<string> parks = surveyResultDAO.GetAllSurveyResults();
             return View(parks);
         }
     }

@@ -5,7 +5,7 @@ namespace Capstone.Web.DAL
 {
     public interface ISurveyResultSqlDAO
     {
-        IList<Survey> GetAllSurveyResults();
+        IList<string> GetAllSurveyResults();
         bool SaveNewSurvey(Survey survey);
     }
 }

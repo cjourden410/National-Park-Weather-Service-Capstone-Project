@@ -1,4 +1,4 @@
-﻿@model IList<Survey>
+﻿@model List<string>
 @{
     ViewData["Title"] = "FavParks";
 }
@@ -7,15 +7,19 @@
 
 <section class="centeredPanel">
     <table class="table table-striped">
-        @foreach (Survey survey in Model)
+        @foreach (string park in Model)
         {
-            <tr>
-                <td>
-                    @*TODO: Add picture for specific park*@
-                    <p class="ParkName">Park Name: @survey.ParkName</p>
-                    <p>Surveys Submitted: @survey.SurveyCount</p>
-                </td>
-            </tr>
+            string[] parkData = park.Split(',');
+            string parkCode = parkData[0];
+            string parkName = parkData[1];
+            string parkCount = parkData[2];
+        <tr>
+            <td><a asp-controller="Home" asp-action="Detail" asp-route-id="@parkCode"><img src="~/images/parks/@(parkCode).jpg" /></a></td>
+            <td>
+            <p class="ParkName">Park Name: @parkName</p>
+            <p>Surveys Submitted: @parkCount</p>
+            </td>
+        </tr>
         }
     </table>
 </section>

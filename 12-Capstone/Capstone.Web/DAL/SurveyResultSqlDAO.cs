@@ -19,9 +19,9 @@ namespace Capstone.Web.DAL
         /// Get list of all survey results
         /// </summary>
         /// <returns></returns>
-        public IList<Survey> GetAllSurveyResults()
+        public IList<string> GetAllSurveyResults()
         {
-            List<Survey> output = new List<Survey>();
+            List<string> output = new List<string>();
 
             try
             {
@@ -32,10 +32,11 @@ namespace Capstone.Web.DAL
                     conn.Open();
 
                     string sql =
-@"select p.parkName, count(sr.parkCode) surveysSubmitted
+@"select p.parkName, sr.parkCode, count(sr.parkCode) surveysSubmitted
 from park p
 join survey_result sr on p.parkCode = sr.parkCode
-group by p.parkName";
+group by sr.parkCode, p.parkName
+order by surveysSubmitted DESC, p.parkName ASC";
                     SqlCommand cmd = new SqlCommand(sql, conn);
 
                     // Execute the command
@@ -44,8 +45,13 @@ group by p.parkName";
                     // Loop through each row
                     while (rdr.Read())
                     {
-                        Survey survey = RowToObjectAllSurveys(rdr);
-                        output.Add(survey);
+                        Survey survey = new Survey();
+
+                        survey.ParkName = Convert.ToString(rdr["parkName"]);
+                        survey.SurveyCount = Convert.ToInt32(rdr["surveysSubmitted"]);
+                        survey.ParkCode = Convert.ToString(rdr["parkCode"]);
+
+                        output.Add(survey.ParkCode + "," + survey.ParkName + "," + survey.SurveyCount);
                     }
                 }
             }
