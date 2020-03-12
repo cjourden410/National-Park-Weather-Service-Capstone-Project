@@ -12,9 +12,12 @@ namespace Capstone.Web.Controllers
     {
         private ISurveyResultSqlDAO surveyResultDAO;
 
-        public SurveyController(ISurveyResultSqlDAO surveyResultDAO)
+        private IParkSqlDAO parkSqlDAO;
+
+        public SurveyController(ISurveyResultSqlDAO surveyResultDAO, IParkSqlDAO parkSqlDAO)
         {
             this.surveyResultDAO = surveyResultDAO;
+            this.parkSqlDAO = parkSqlDAO;
         }
 
         [HttpGet]
@@ -24,14 +27,15 @@ namespace Capstone.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(Survey survey)
+        public IActionResult Index(SurveySearch surveysearch)
         {
             if (!ModelState.IsValid)
             {
-                return View(survey);
+                return View(surveysearch);
             }
 
-            surveyResultDAO.SaveNewSurvey(survey);
+            IList<Park> parks = parkSqlDAO.GetAllParks();
+            surveyResultDAO.SaveNewSurvey(surveysearch.survey);
             TempData["Success"] = "Your review has been saved!";
             return RedirectToAction("FavParks");
         }

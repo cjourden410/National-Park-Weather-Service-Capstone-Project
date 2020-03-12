@@ -1,4 +1,4 @@
-﻿@model Survey
+﻿@model SurveySearch
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,22 +8,41 @@
     <form asp-controller="Survey" asp-action="Index" method="post">
 
         <div asp-validation-summary="All" class="error"></div>
-        <table class="table"> 
+        <table class="table">
             <tr>
-                <td><label asp-for="ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
-                <td><input asp-for="ParkCode" /><span asp-validation-for="ParkCode" class="error"></span></td> @*TODO: Make a pulldown and grab park names*@
+                <td><label asp-for="@Model.survey.ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
+                <td>
+                    <select name="ParkCode">
+                        <option value="Cuyahoga Valley National Park">Cuyahoga Valley National Park</option>
+                        <option value="Glacier National Park">Glacier National Park</option>
+                    </select>
+
+                </td> @*TODO: Make a pulldown and grab park names*@
             </tr>
             <tr>
-                <td><label asp-for="EmailAddress">Your email</label></td>
-                <td><input asp-for="EmailAddress" /><span asp-validation-for="EmailAddress" class="error"></span></td>
+                <td><label asp-for="@Model.survey.EmailAddress">Your email</label></td>
+                <td><input asp-for="@Model.survey.EmailAddress" /><span asp-validation-for="@Model.survey.EmailAddress" class="error"></span></td>
             </tr>
             <tr>
-                <td><label asp-for="State">State of residence</label></td>
-                <td><input asp-for="State" /><span asp-validation-for="State" class="error"></span></td>
+                <td><label asp-for="@Model.survey.State">State of residence</label></td>
+                <td>
+                    <select name="State">
+                        <option value="Ohio">Ohio</option>
+                        <option value="Pennsylvania">Pennsylvania</option>
+                    </select>
+                </td>
+
             </tr>
             <tr>
-                <td><label asp-for="ActivityLevel">Activity level</label></td>@*TODO: Make a pulldown: inactive, sedentary, active, extremely active*@
-                <td><input asp-for="ActivityLevel" /><span asp-validation-for="ActivityLevel" class="error"></span></td>@*TODO: Make a pulldown*@
+                <td><label asp-for="@Model.survey.ActivityLevel">Activity level</label></td>
+                @*TODO: Make a pulldown: inactive, sedentary, active, extremely active*@
+                <td>
+                    <select name="Activity Level">
+                        <option value="Inactive">Inactive</option>
+                        <option value="Sedentary">Sedentary</option>
+                    </select>
+                </td>
+                @*TODO: Make a pulldown*@
             </tr>
             <tr>
                 <td></td>

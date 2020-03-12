@@ -39,7 +39,7 @@ namespace Capstone.Web
             // Define connection string here
             connectionString = Configuration.GetConnectionString("Default");
 
-            // TODO: Add AddTransient for DAO(s)
+            
             services.AddTransient<IParkSqlDAO, ParkSqlDAO>((x) => new ParkSqlDAO(connectionString));
             services.AddTransient<ISurveyResultSqlDAO, SurveyResultSqlDAO>((x) => new SurveyResultSqlDAO(connectionString));
 
