@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Capstone.Web.DAL
 {
@@ -39,7 +40,12 @@ namespace Capstone.Web.DAL
                     // Loop through each row
                     while (rdr.Read())
                     {
-                        Weather weather = RowToObjectWeather(rdr);
+                        Weather weather = new Weather();
+                        weather.ParkCode = Convert.ToString(rdr["parkCode"]);
+                        weather.FiveDayForecastValue = Convert.ToInt32(rdr["fiveDayForecastValue"]);
+                        weather.LowTemp = Convert.ToInt32(rdr["low"]);
+                        weather.HighTemp = Convert.ToInt32(rdr["high"]);
+                        weather.Forecast = Convert.ToString(rdr["forecast"]);
                         output.Add(weather);
                     }
                 }
@@ -59,7 +65,7 @@ namespace Capstone.Web.DAL
         /// <returns></returns>
         public Park GetParkById(string id)
         {
-            Park park = null;
+            Park park = new Park();
             try
             {
                 // Create a new connection object
@@ -82,7 +88,21 @@ where p.parkCode = @code";
                     if (rdr.Read())
                     {
                         // Create a park
-                        park = RowToObject(rdr);
+                        park.ParkCode = Convert.ToString(rdr["parkCode"]);
+                        park.ParkName = Convert.ToString(rdr["parkName"]);
+                        park.State = Convert.ToString(rdr["state"]);
+                        park.Acreage = Convert.ToInt32(rdr["acreage"]);
+                        park.ElevationInFeet = Convert.ToInt32(rdr["elevationInFeet"]);
+                        park.MilesOfTrail = Convert.ToSingle(rdr["milesOfTrail"]);
+                        park.NumberOfCampsites = Convert.ToInt32(rdr["numberOfCampsites"]);
+                        park.Climate = Convert.ToString(rdr["climate"]);
+                        park.YearFounded = Convert.ToInt32(rdr["yearFounded"]);
+                        park.AnnualVisitorCount = Convert.ToInt32(rdr["annualVisitorCount"]);
+                        park.InspirationalQuote = Convert.ToString(rdr["inspirationalQuote"]);
+                        park.InspirationalQuoteSource = Convert.ToString(rdr["inspirationalQuoteSource"]);
+                        park.ParkDescription = Convert.ToString(rdr["parkDescription"]);
+                        park.EntryFee = Convert.ToInt32(rdr["entryFee"]);
+                        park.NumberOfAnimalSpecies = Convert.ToInt32(rdr["numberOfAnimalSpecies"]);
                     }
                 }
             }
@@ -119,7 +139,22 @@ where p.parkCode = @code";
                     // Loop through each row
                     while (rdr.Read())
                     {
-                        Park park = RowToObject(rdr);
+                        Park park = new Park();
+                        park.ParkCode = Convert.ToString(rdr["parkCode"]);
+                        park.ParkName = Convert.ToString(rdr["parkName"]);
+                        park.State = Convert.ToString(rdr["state"]);
+                        park.Acreage = Convert.ToInt32(rdr["acreage"]);
+                        park.ElevationInFeet = Convert.ToInt32(rdr["elevationInFeet"]);
+                        park.MilesOfTrail = Convert.ToSingle(rdr["milesOfTrail"]);
+                        park.NumberOfCampsites = Convert.ToInt32(rdr["numberOfCampsites"]);
+                        park.Climate = Convert.ToString(rdr["climate"]);
+                        park.YearFounded = Convert.ToInt32(rdr["yearFounded"]);
+                        park.AnnualVisitorCount = Convert.ToInt32(rdr["annualVisitorCount"]);
+                        park.InspirationalQuote = Convert.ToString(rdr["inspirationalQuote"]);
+                        park.InspirationalQuoteSource = Convert.ToString(rdr["inspirationalQuoteSource"]);
+                        park.ParkDescription = Convert.ToString(rdr["parkDescription"]);
+                        park.EntryFee = Convert.ToInt32(rdr["entryFee"]);
+                        park.NumberOfAnimalSpecies = Convert.ToInt32(rdr["numberOfAnimalSpecies"]);
                         output.Add(park);
                     }
                 }
@@ -132,39 +167,67 @@ where p.parkCode = @code";
             return output;
         }
 
-
-        private Park RowToObject(SqlDataReader rdr)
+        public List<SelectListItem> GetParksForSurvey()
         {
-            // Create a park
-            Park park = new Park();
-            park.ParkCode = Convert.ToString(rdr["parkCode"]);
-            park.ParkName = Convert.ToString(rdr["parkName"]);
-            park.State = Convert.ToString(rdr["state"]);
-            park.Acreage = Convert.ToInt32(rdr["acreage"]);
-            park.ElevationInFeet = Convert.ToInt32(rdr["elevationInFeet"]);
-            park.MilesOfTrail = Convert.ToSingle(rdr["milesOfTrail"]);
-            park.NumberOfCampsites = Convert.ToInt32(rdr["numberOfCampsites"]);
-            park.Climate = Convert.ToString(rdr["climate"]);
-            park.YearFounded = Convert.ToInt32(rdr["yearFounded"]);
-            park.AnnualVisitorCount = Convert.ToInt32(rdr["annualVisitorCount"]);
-            park.InspirationalQuote = Convert.ToString(rdr["inspirationalQuote"]);
-            park.InspirationalQuoteSource = Convert.ToString(rdr["inspirationalQuoteSource"]);
-            park.ParkDescription = Convert.ToString(rdr["parkDescription"]);
-            park.EntryFee = Convert.ToInt32(rdr["entryFee"]);
-            park.NumberOfAnimalSpecies = Convert.ToInt32(rdr["numberOfAnimalSpecies"]);
-            return park;
-        }
+            List<SelectListItem> output = new List<SelectListItem>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    string sql = "select parkName, parkCode from park";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
-        private Weather RowToObjectWeather(SqlDataReader rdr)
-        {
-            // Create a park
-            Weather weather = new Weather();
-            weather.ParkCode = Convert.ToString(rdr["parkCode"]);
-            weather.FiveDayForecastValue = Convert.ToInt32(rdr["fiveDayForecastValue"]);
-            weather.LowTemp = Convert.ToInt32(rdr["low"]);
-            weather.HighTemp = Convert.ToInt32(rdr["high"]);
-            weather.Forecast = Convert.ToString(rdr["forecast"]);
-            return weather;
+                    while (reader.Read())
+                    {
+                        string parkName = Convert.ToString(reader["parkName"]);
+                        string parkCode = Convert.ToString(reader["parkCode"]);
+                        output.Add(new SelectListItem() { Text = parkName, Value = parkCode });
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw ex;
+            }
+            return output;
         }
     }
+
+    // No longer using RowToObject as it conflicts when using System.Web.Mvc
+    //private Park RowToObject(SqlDataReader rdr)
+    //{
+    //    // Create a park
+    //    Park park = new Park();
+    //    park.ParkCode = Convert.ToString(rdr["parkCode"]);
+    //    park.ParkName = Convert.ToString(rdr["parkName"]);
+    //    park.State = Convert.ToString(rdr["state"]);
+    //    park.Acreage = Convert.ToInt32(rdr["acreage"]);
+    //    park.ElevationInFeet = Convert.ToInt32(rdr["elevationInFeet"]);
+    //    park.MilesOfTrail = Convert.ToSingle(rdr["milesOfTrail"]);
+    //    park.NumberOfCampsites = Convert.ToInt32(rdr["numberOfCampsites"]);
+    //    park.Climate = Convert.ToString(rdr["climate"]);
+    //    park.YearFounded = Convert.ToInt32(rdr["yearFounded"]);
+    //    park.AnnualVisitorCount = Convert.ToInt32(rdr["annualVisitorCount"]);
+    //    park.InspirationalQuote = Convert.ToString(rdr["inspirationalQuote"]);
+    //    park.InspirationalQuoteSource = Convert.ToString(rdr["inspirationalQuoteSource"]);
+    //    park.ParkDescription = Convert.ToString(rdr["parkDescription"]);
+    //    park.EntryFee = Convert.ToInt32(rdr["entryFee"]);
+    //    park.NumberOfAnimalSpecies = Convert.ToInt32(rdr["numberOfAnimalSpecies"]);
+    //    return park;
+    //}
+
+    //private Weather RowToObjectWeather(SqlDataReader rdr)
+    //{
+    //    // Create a park
+    //    Weather weather = new Weather();
+    //    weather.ParkCode = Convert.ToString(rdr["parkCode"]);
+    //    weather.FiveDayForecastValue = Convert.ToInt32(rdr["fiveDayForecastValue"]);
+    //    weather.LowTemp = Convert.ToInt32(rdr["low"]);
+    //    weather.HighTemp = Convert.ToInt32(rdr["high"]);
+    //    weather.Forecast = Convert.ToString(rdr["forecast"]);
+    //    return weather;
+    //}
 }
+

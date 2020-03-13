@@ -64,7 +64,7 @@ namespace Capstone.Web.Controllers
             if (tempChoice == null)
             {
                 tempChoice = "F";
-                HttpContext.Session.SetString("tempChoice", JsonConvert.SerializeObject(tempChoice));
+                HttpContext.Session.SetString("tempChoice", tempChoice);
             }
             ps.TempChoice = tempChoice;
 

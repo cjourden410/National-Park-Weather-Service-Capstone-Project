@@ -11,13 +11,14 @@
         <table class="table">
             <tr>
                 <td><label asp-for="@Model.survey.ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
-                <td>
-                    <select name="ParkCode">
-                        <option value="Cuyahoga Valley National Park">Cuyahoga Valley National Park</option>
-                        <option value="Glacier National Park">Glacier National Park</option>
+                <td> @*Created a pulldown and grab park names*@
+                    <select asp-for="@Model.survey.ParkCode">
+                        @foreach (SelectListItem item in Model.parkList)
+                        {
+                        <option value="@item.Value">@item.Text</option>
+                        }
                     </select>
-
-                </td> @*TODO: Make a pulldown and grab park names*@
+                </td> 
             </tr>
             <tr>
                 <td><label asp-for="@Model.survey.EmailAddress">Your email</label></td>
@@ -26,23 +27,28 @@
             <tr>
                 <td><label asp-for="@Model.survey.State">State of residence</label></td>
                 <td>
-                    <select name="State">
-                        <option value="Ohio">Ohio</option>
-                        <option value="Pennsylvania">Pennsylvania</option>
+                    <select asp-for="@Model.survey.State">
+                        @foreach (SelectListItem item in Model.stateList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                        @*<option value="Ohio">Ohio</option>
+                        <option value="Pennsylvania">Pennsylvania</option>*@
                     </select>
                 </td>
 
             </tr>
             <tr>
                 <td><label asp-for="@Model.survey.ActivityLevel">Activity level</label></td>
-                @*TODO: Make a pulldown: inactive, sedentary, active, extremely active*@
+                @*Created a pulldown and grab*@
                 <td>
-                    <select name="Activity Level">
-                        <option value="Inactive">Inactive</option>
-                        <option value="Sedentary">Sedentary</option>
+                    <select asp-for="@Model.survey.ActivityLevel">
+                        @foreach (string level in Model.activityList)
+                        {
+                            <option value="@level">@level</option>
+                        }
                     </select>
                 </td>
-                @*TODO: Make a pulldown*@
             </tr>
             <tr>
                 <td></td>
