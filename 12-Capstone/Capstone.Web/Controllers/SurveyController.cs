@@ -32,15 +32,18 @@ namespace Capstone.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(SurveySearch surveysearch)
+        public IActionResult Index(SurveySearch ss)
         {
             if (!ModelState.IsValid)
             {
-                return View(surveysearch);
+                ss.parkList = parkSqlDAO.GetParksForSurvey();
+                ss.stateList = stateList;
+                ss.activityList = activityLevel;
+                return View(ss);
             }
 
             //IList<Park> parks = parkSqlDAO.GetAllParks();
-            surveyResultDAO.SaveNewSurvey(surveysearch.survey);
+            surveyResultDAO.SaveNewSurvey(ss.survey);
             TempData["Success"] = "Your review has been saved!";
             return RedirectToAction("FavParks");
         }
