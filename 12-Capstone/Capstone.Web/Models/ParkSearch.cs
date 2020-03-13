@@ -25,6 +25,8 @@ namespace Capstone.Web.Models
             { "thunderstorms", "DANGER Seek shelter and avoid hiking on exposed ridges! DANGER" },
             { "sunny", "Be sure to pack sun block!" },
             { "partly cloudy", "Have an excellent day in this beautiful weather!" },
+            { "cloudy", "Have an excellent day in this overcast weather!" },
+
         };
 
         // Gives advisory based on temperature

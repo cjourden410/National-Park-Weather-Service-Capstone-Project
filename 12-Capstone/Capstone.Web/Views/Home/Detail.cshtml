@@ -6,32 +6,38 @@
 
 @*Detail view of chosen park*@
 <section class="centeredPanel">
-    <table class="table @*table-striped*@">
-        <tr>
-            <h3 class="DetailParkName">@Model.park.ParkName - @Model.park.State</h3>
-            <td class="park-image"><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
-        </tr>
-        <tr>
-            <td>
-
+    <div class="detail-view">
+        <div class="park-image">
+            <img src="~/images/parks/@(Model.park.ParkCode).jpg" />
+        </div>
+        <div class="all-park-info">
+            <div class="park-description">
+                <p class="DetailParkName">@Model.park.ParkName - @Model.park.State</p>
                 <p>@Model.park.ParkDescription</p>
-                <p>Total Acreage: @(Model.park.Acreage.ToString("N0")) acres</p>
-                <p>Total Elevation: @(Model.park.ElevationInFeet.ToString("N0")) feet</p>
-                <p>Total Trail Length: @Model.park.MilesOfTrail miles</p>
-                <p>Campsites on Grounds: @(Model.park.NumberOfCampsites.ToString("N0"))</p>
-                <p>Climate Type: @Model.park.Climate</p>
-                <p>Year Founded: @Model.park.YearFounded</p>
-                <p>Annual Visitor Count: @(Model.park.AnnualVisitorCount.ToString("N0"))</p>
-                <p>"@Model.park.InspirationalQuote"  - @Model.park.InspirationalQuoteSource</p>
-                @*<p>- @Model.park.InspirationalQuoteSource</p>*@
-                <p>Park Entry Fee: $@Model.park.EntryFee</p>
-                <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
+            </div>
+            <div class="park-info1">
+                <p><strong>Total Acreage: </strong>@(Model.park.Acreage.ToString("N0")) acres</p>
+                <p><strong>Total Elevation: </strong>@(Model.park.ElevationInFeet.ToString("N0")) feet</p>
+                <p><strong>Total Trail Length: </strong>@Model.park.MilesOfTrail miles</p>
+            </div>
+            <div class="park-info2">
+                <p><strong>Campsites on Grounds: </strong>@(Model.park.NumberOfCampsites.ToString("N0"))</p>
+                <p><strong>Climate Type: </strong>@Model.park.Climate</p>
+                <p><strong>Year Founded: </strong>@Model.park.YearFounded</p>
+            </div>
+            <div class="park-info3">
+                <p><strong>Annual Visitor Count: </strong>@(Model.park.AnnualVisitorCount.ToString("N0"))</p>
+                <p><strong>Park Entry Fee: </strong>$@Model.park.EntryFee</p>
+                <p><strong>Number of Animal Species: </strong>@Model.park.NumberOfAnimalSpecies</p>
+            </div>
+            <div class="park-quote">
+                <p><i>"@Model.park.InspirationalQuote"</i>  - @Model.park.InspirationalQuoteSource</p>
+            </div>
+        </div>
+        <div class="weather">
+            <div class="today" id="weather">
+                <p id="today"><strong>Today</strong></p>
                 @*Displays Day 1 of Forecast in Detail View*@
-                <h5>Today</h5>
                 @if (Model.WeatherList[0].Forecast == "partly cloudy")
                 {
                     <img src="~/images/weather/partlyCloudy.png" />
@@ -40,6 +46,7 @@
                 {
                     <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
                 }
+               
                 @if (Model.TempChoice == "F")
                 {
                     <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
@@ -50,13 +57,15 @@
                 }
 
                 <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
-            </td>
+            </div>
+
+
             @*Displays Days 2-5 of Forecast in Detail View*@
-        </tr>
-        @for (int i = 1; i < Model.WeatherList.Count; i++)
-        {
-            <tr>
-                <td>
+
+            @for (int i = 1; i < Model.WeatherList.Count; i++)
+            {
+                <div class="forecast" id="weather" >
+                    <p> </p>
                     @if (Model.WeatherList[i].Forecast == "partly cloudy")
                     {
                         <img src="~/images/weather/partlyCloudy.png" />
@@ -74,26 +83,25 @@
                         <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
                     }
                     <p>@Model.GetAdvisory(Model.WeatherList[i])</p>
-                </td>
-            </tr>
-        } @*use for loop instead have the image be at WeatherList[i]*@
-    </table>
-    @if (Model.TempChoice == "F")
-    {
-        <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
-            <input asp-for="@Model.TempChoice" value="C" type="hidden" />
-            <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-            <input type="submit" value="Switch to Celcius" />
+                </div>
+            } @*use for loop instead have the image be at WeatherList[i]*@
+        </div>
+        @if (Model.TempChoice == "F")
+        {
+            <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                <input asp-for="@Model.TempChoice" value="C" type="hidden" />
+                <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                <input type="submit" value="Switch to Celcius" />
 
-        </form>
-    }
-    else
-    {
-        <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
-            <input asp-for="@Model.TempChoice" value="F" type="hidden" />
-            <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-            <input type="submit" value="Switch to Fahrenheit" />
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                <input asp-for="@Model.TempChoice" value="F" type="hidden" />
+                <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                <input type="submit" value="Switch to Fahrenheit" />
 
-        </form>
-    }
+            </form>
+        }
 </section>

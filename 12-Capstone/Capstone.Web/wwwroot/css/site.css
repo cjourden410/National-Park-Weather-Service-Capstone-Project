@@ -5,10 +5,85 @@ table {
     border: none;
 }
 
+.park-quote {
+    justify-self: center;
+}
+
+
 .table > tbody > tr > td {
     border: none;
 }
 
+.DetailParkName {
+    font-size: 20px;
+}
+
+.detail-view {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas: "picture description" "weather weather";
+    align-items: stretch;
+    column-gap: 15px;
+}
+
+.all-park-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "grid-description grid-description grid-description" "park1 park2 park3" "quote quote quote"
+}
+
+.park-description {
+    grid-area: grid-description;
+}
+
+.park-info1 {
+    grid-area: park1;
+}
+
+.park-info2 {
+    grid-area: park2;
+}
+
+.park-info3 {
+    grid-area: park3;
+}
+
+.park-quote {
+    grid-area: quote;
+}
+
+.park-image {
+    grid-area: picture;
+    justify-self: left;
+}
+
+.all-park-info {
+    grid-area: description;
+}
+
+.weather {
+    grid-area: weather;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+}
+
+    .weather > #weather {
+        flex-basis: 50px;
+    }
+
+    .weather > .forecast {
+        margin-top: 20px;
+    }
+
+#weather img {
+    width: 175px;
+}
+
+#weather p {
+    text-align: center;
+}
 
 body {
     padding-top: 0px;
@@ -16,13 +91,11 @@ body {
     background-color: #F2F2F2
 }
 
-
-
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 /* Carousel */
@@ -63,13 +136,6 @@ body {
 
 .navbar-inverse {
     border: none;
-}
-
-.park-image {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
 }
 
 /* Hide/rearrange for smaller screens */
