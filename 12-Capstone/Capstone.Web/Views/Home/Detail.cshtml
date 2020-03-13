@@ -3,17 +3,17 @@
     ViewData["Title"] = "Detail";
 }
 
-<h2>Detail</h2>
+
 @*Detail view of chosen park*@
 <section class="centeredPanel">
-
-    <table class="table table-striped">
+    <table class="table @*table-striped*@">
         <tr>
-            <td><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
+            <h3 class="DetailParkName">@Model.park.ParkName - @Model.park.State</h3>
+            <td class="park-image"><img src="~/images/parks/@(Model.park.ParkCode).jpg" /></a></td>
         </tr>
         <tr>
             <td>
-                <h3 class="ParkName">@Model.park.ParkName - @Model.park.State</h3>
+
                 <p>@Model.park.ParkDescription</p>
                 <p>Total Acreage: @(Model.park.Acreage.ToString("N0")) acres</p>
                 <p>Total Elevation: @(Model.park.ElevationInFeet.ToString("N0")) feet</p>
@@ -22,8 +22,8 @@
                 <p>Climate Type: @Model.park.Climate</p>
                 <p>Year Founded: @Model.park.YearFounded</p>
                 <p>Annual Visitor Count: @(Model.park.AnnualVisitorCount.ToString("N0"))</p>
-                <p>"@Model.park.InspirationalQuote"</p>
-                <p>- @Model.park.InspirationalQuoteSource</p>
+                <p>"@Model.park.InspirationalQuote"  - @Model.park.InspirationalQuoteSource</p>
+                @*<p>- @Model.park.InspirationalQuoteSource</p>*@
                 <p>Park Entry Fee: $@Model.park.EntryFee</p>
                 <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
             </td>

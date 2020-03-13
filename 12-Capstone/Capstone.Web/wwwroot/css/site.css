@@ -1,9 +1,22 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
-body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+
+table {
+    border: none;
 }
+
+.table > tbody > tr > td {
+    border: none;
+}
+
+
+body {
+    padding-top: 0px;
+    padding-bottom: 20px;
+    background-color: #F2F2F2
+}
+
+
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -26,6 +39,37 @@ body {
 /* QR code generator */
 #qrCode {
     margin: 15px;
+}
+
+.ParkName {
+    font-weight: bold;
+    color: #5F3B04;
+}
+
+.DetailParkName {
+    font-weight: bold;
+    color: #5F3B04;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+}
+
+.navbar {
+    background-color: #596664;
+}
+
+.navbar-inverse {
+    border: none;
+}
+
+.park-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 
 /* Hide/rearrange for smaller screens */

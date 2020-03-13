@@ -21,7 +21,7 @@
     <header>
         <img src="~/images/logo.png" alt="National Parks Geek logo" style="width:500px;height:150px;" />
     </header>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse">
         @*TODO: Add a header to include Logo and National Park Geek copy*@
         <div class="container">
             <div class="navbar-header">
@@ -31,12 +31,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Capstone.Web</a>
+                @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Capstone.Web</a>*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li> @*TODO: DONE update accordingly*@
-                    <li><a asp-area="" asp-controller="Survey" asp-action="Index">Survey</a></li> @*TODO: DONE update accordingly to survey page*@
+                    <li class="headertext"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li> @*TODO: DONE update accordingly*@
+                    <li class="headertext"><a asp-area="" asp-controller="Survey" asp-action="Index">Survey</a></li> @*TODO: DONE update accordingly to survey page*@
                 </ul>
             </div>
         </div>
