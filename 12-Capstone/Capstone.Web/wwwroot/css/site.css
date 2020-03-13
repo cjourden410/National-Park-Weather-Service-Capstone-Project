@@ -23,6 +23,7 @@ table {
     grid-template-columns: 1fr 2fr;
     grid-template-areas: "picture description" "weather weather";
     align-items: stretch;
+    row-gap: 10px;
     column-gap: 15px;
 }
 
@@ -85,10 +86,19 @@ table {
     text-align: center;
 }
 
+.virginia img {
+    width: 100%; 
+    -webkit-transform:rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
 body {
     padding-top: 0px;
     padding-bottom: 20px;
-    background-color: #F2F2F2
+    background-color: white;
 }
 
 /* Wrapping element */

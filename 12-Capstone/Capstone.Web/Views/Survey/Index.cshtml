@@ -3,58 +3,62 @@
     ViewData["Title"] = "Index";
 }
 
-<section class="centeredPanel">
-    <h2>New Park Review</h2>
-    <form asp-controller="Survey" asp-action="Index" method="post">
+    <section class="centeredPanel">
+        <div class="virginia">
+            <img src="~/images/virginia.jpg" />
+        </div>
+        <h2>New Park Review</h2>
+        <form asp-controller="Survey" asp-action="Index" method="post">
 
-        @*<div asp-validation-summary="All" class="error"></div>*@
-        <table class="table">
-            <tr>
-                <td><label asp-for="@Model.survey.ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
-                <td> @*Created a pulldown and grab park names*@
-                    <select asp-for="@Model.survey.ParkCode" asp-items="Model.parkList">
-                        <option disabled selected> -- Select an National Park -- </option>
-                        @*@foreach (SelectListItem item in Model.parkList)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }*@
-                    </select><span asp-validation-for="@Model.survey.ParkCode" class="error"></span>
-                </td> 
-            </tr>
-            <tr>
-                <td><label asp-for="@Model.survey.EmailAddress">Your email</label></td>
-                <td><input asp-for="@Model.survey.EmailAddress" /><span asp-validation-for="@Model.survey.EmailAddress" class="error"></span></td>
-            </tr>
-            <tr>
-                <td><label asp-for="@Model.survey.State">State of residence</label></td>
-                <td>
-                    <select asp-for="@Model.survey.State" asp-items="Model.stateList">
-                        <option disabled selected> -- Select State of Residence -- </option>
-                        @*@foreach (SelectListItem item in Model.stateList)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }*@
-                    </select><span asp-validation-for="@Model.survey.State" class="error"></span>
-                </td>
+            @*<div asp-validation-summary="All" class="error"></div>*@
+            <table class="table">
+                <tr>
+                    <td><label asp-for="@Model.survey.ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
+                    <td>
+                        @*Created a pulldown and grab park names*@
+                        <select asp-for="@Model.survey.ParkCode" asp-items="Model.parkList">
+                            <option disabled selected> -- Select an National Park -- </option>
+                            @*@foreach (SelectListItem item in Model.parkList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }*@
+                        </select><span asp-validation-for="@Model.survey.ParkCode" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label asp-for="@Model.survey.EmailAddress">Your email</label></td>
+                    <td><input asp-for="@Model.survey.EmailAddress" /><span asp-validation-for="@Model.survey.EmailAddress" class="error"></span></td>
+                </tr>
+                <tr>
+                    <td><label asp-for="@Model.survey.State">State of residence</label></td>
+                    <td>
+                        <select asp-for="@Model.survey.State" asp-items="Model.stateList">
+                            <option disabled selected> -- Select State of Residence -- </option>
+                            @*@foreach (SelectListItem item in Model.stateList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }*@
+                        </select><span asp-validation-for="@Model.survey.State" class="error"></span>
+                    </td>
 
-            </tr>
-            <tr>
-                <td><label asp-for="@Model.survey.ActivityLevel">Activity level</label></td>
-                @*Created a pulldown and grab*@
-                <td>
-                    <select asp-for="@Model.survey.ActivityLevel">
-                        <option disabled selected> -- What is your acitvity level? -- </option>
-                        @foreach (string level in Model.activityList)
-                        {
-                            <option value="@level">@level</option>
-                        }
-                    </select><span asp-validation-for="@Model.survey.ActivityLevel" class="error"></span>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Submit!" /></td>
-            </tr>
-        </table>
-    </form>
-</section>
+                </tr>
+                <tr>
+                    <td><label asp-for="@Model.survey.ActivityLevel">Activity level</label></td>
+                    @*Created a pulldown and grab*@
+                    <td>
+                        <select asp-for="@Model.survey.ActivityLevel">
+                            <option disabled selected> -- What is your acitvity level? -- </option>
+                            @foreach (string level in Model.activityList)
+                            {
+                                <option value="@level">@level</option>
+                            }
+                        </select><span asp-validation-for="@Model.survey.ActivityLevel" class="error"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Submit!" /></td>
+                </tr>
+            </table>
+        </form>
+    </section>
