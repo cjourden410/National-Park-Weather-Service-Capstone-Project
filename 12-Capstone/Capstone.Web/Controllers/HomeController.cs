@@ -60,13 +60,8 @@ namespace Capstone.Web.Controllers
 
             ps.park = park;
             ps.WeatherList = parkDAO.GetWeatherByPark(id);
-            string tempChoice = HttpContext.Session.GetString("tempChoice");
-            if (tempChoice == null)
-            {
-                tempChoice = "F";
-                HttpContext.Session.SetString("tempChoice", tempChoice);
-            }
-            ps.TempChoice = tempChoice;
+
+            ps.TempChoice = HttpContext.Session.GetString("tempChoice") ?? "F";
 
             return View(ps);
         }
@@ -74,14 +69,6 @@ namespace Capstone.Web.Controllers
         [HttpPost]
         public IActionResult Detail(string id, ParkSearch ps)
         {
-            if (ps.TempChoice == "F")
-            {
-                ps.TempChoice = "C";
-            }
-            else if (ps.TempChoice == "C")
-            {
-                ps.TempChoice = "F";
-            }
             HttpContext.Session.SetString("tempChoice", ps.TempChoice);
             ps.park = parkDAO.GetParkById(id);
             ps.WeatherList = parkDAO.GetWeatherByPark(id);

@@ -28,61 +28,72 @@
                 <p>Number of Animal Species: @Model.park.NumberOfAnimalSpecies</p>
             </td>
         </tr>
-    </table>
-    <form asp-controller="Home" asp-action="Detail" method="post">
-        <table class="table table-striped">
+        <tr>
+            <td>
+                @*Displays Day 1 of Forecast in Detail View*@
+                <h5>Today</h5>
+                @if (Model.WeatherList[0].Forecast == "partly cloudy")
+                {
+                    <img src="~/images/weather/partlyCloudy.png" />
+                }
+                else
+                {
+                    <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
+                }
+                @if (Model.TempChoice == "F")
+                {
+                    <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                }
+                else
+                {
+                    <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                }
+
+                <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
+            </td>
+            @*Displays Days 2-5 of Forecast in Detail View*@
+        </tr>
+        @for (int i = 1; i < Model.WeatherList.Count; i++)
+        {
             <tr>
                 <td>
-                    @*Displays Day 1 of Forecast in Detail View*@
-                    <h5>Today</h5>
-                    @if (Model.WeatherList[0].Forecast == "partly cloudy")
+                    @if (Model.WeatherList[i].Forecast == "partly cloudy")
                     {
                         <img src="~/images/weather/partlyCloudy.png" />
                     }
                     else
                     {
-                        <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
+                        <img src="~/images/weather/@(Model.WeatherList[i].Forecast).png" />
                     }
                     @if (Model.TempChoice == "F")
                     {
-                        <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                        <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
                     }
                     else
                     {
-                        <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                        <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
                     }
-
-                    <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
+                    <p>@Model.GetAdvisory(Model.WeatherList[i])</p>
                 </td>
-                @*Displays Days 2-5 of Forecast in Detail View*@
             </tr>
-            @for (int i = 1; i < Model.WeatherList.Count; i++)
-            {
-                <tr>
-                    <td>
-                        @if (Model.WeatherList[i].Forecast == "partly cloudy")
-                        {
-                            <img src="~/images/weather/partlyCloudy.png" />
-                        }
-                        else
-                        {
-                            <img src="~/images/weather/@(Model.WeatherList[i].Forecast).png" />
-                        }
-                        @if (Model.TempChoice == "F")
-                        {
-                            <p>High @Model.WeatherList[i].HighTemp°F|| Low @Model.WeatherList[i].LowTemp°F</p>
-                        }
-                        else
-                        {
-                            <p>High @Model.tempConversion(Model.WeatherList[i].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[i].LowTemp)°C</p>
-                        }
-                        <p>@Model.GetAdvisory(Model.WeatherList[i])</p>
-                    </td>
-                </tr>
-            } @*use for loop instead have the image be at WeatherList[i]*@
-        </table>
-        <div class="bootstrap-switch-square">
-            <input type="submit" value="Submit!" />
-        </div>
-    </form>
+        } @*use for loop instead have the image be at WeatherList[i]*@
+    </table>
+    @if (Model.TempChoice == "F")
+    {
+        <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+            <input asp-for="@Model.TempChoice" value="C" type="hidden" />
+            <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+            <input type="submit" value="Switch to Celcius" />
+
+        </form>
+    }
+    else
+    {
+        <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+            <input asp-for="@Model.TempChoice" value="F" type="hidden" />
+            <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+            <input type="submit" value="Switch to Fahrenheit" />
+
+        </form>
+    }
 </section>

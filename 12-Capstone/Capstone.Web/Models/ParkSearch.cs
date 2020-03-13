@@ -54,6 +54,6 @@ namespace Capstone.Web.Models
         }
 
         // User toggle value for displaying F or C
-        public string TempChoice { get; set; } = "F";
+        public string TempChoice { get; set; }
     }
 }
