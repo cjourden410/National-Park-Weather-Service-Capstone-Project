@@ -22,10 +22,5 @@ namespace Capstone.Web.Models
         public string ParkDescription { get; set; }
         public int EntryFee { get; set; }
         public int NumberOfAnimalSpecies { get; set; }
-        public int FiveDayForecastValue { get; set; }
-        public int LowTemp { get; set; }
-        public int HighTemp { get; set; }
-        public string Forecast { get; set; }
-        public IList<Weather> WeatherList { get; set; } // TESTING IF THIS WORKS OR NOT
     }
 }

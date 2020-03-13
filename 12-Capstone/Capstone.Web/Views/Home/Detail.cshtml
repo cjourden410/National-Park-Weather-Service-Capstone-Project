@@ -91,7 +91,7 @@
             <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
                 <input asp-for="@Model.TempChoice" value="C" type="hidden" />
                 <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-                <input type="submit" value="Switch to Celcius" />
+                <input class="submit" type="submit" value="Switch to Celcius" />
 
             </form>
         }
@@ -100,7 +100,7 @@
             <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
                 <input asp-for="@Model.TempChoice" value="F" type="hidden" />
                 <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-                <input type="submit" value="Switch to Fahrenheit" />
+                <input class="submit" type="submit" value="Switch to Fahrenheit" />
 
             </form>
         }
