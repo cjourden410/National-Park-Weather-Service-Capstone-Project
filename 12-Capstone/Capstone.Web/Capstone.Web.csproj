@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\chrisjourden-c\module-3\11-User-Authentication\lecture-final\TE.AuthLib\TE.AuthLib\TE.AuthLib.csproj" />
+  </ItemGroup>
+
 </Project>

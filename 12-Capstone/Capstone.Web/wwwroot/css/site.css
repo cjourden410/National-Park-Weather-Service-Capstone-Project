@@ -163,6 +163,10 @@ body {
     background-color: #2B97D9;
 }
 
+form td {
+    padding: 3px 5px;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TE.AuthLib;
+using TE.AuthLib.DAL;
 
 namespace Capstone.Web
 {
@@ -41,17 +43,38 @@ namespace Capstone.Web
                 options.Cookie.HttpOnly = true;
             });
 
-            // Added anti forgery token
-            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Define connection string here
+            // Define connection string here for default and user
             connectionString = Configuration.GetConnectionString("Default");
-
+            string userConnectionString = Configuration.GetConnectionString("User");
 
             services.AddTransient<IParkSqlDAO, ParkSqlDAO>((x) => new ParkSqlDAO(connectionString));
             services.AddTransient<ISurveyResultSqlDAO, SurveyResultSqlDAO>((x) => new SurveyResultSqlDAO(connectionString));
+            services.AddTransient<IUserDAO>(m => new UserSqlDAO(userConnectionString));
 
+            // Setup dependency injection for the authentication provider
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-context?view=aspnetcore-3.1
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IAuthProvider, SessionAuthProvider>();
+
+            // Configure the Auth filter to re-direct to account/login
+            AuthorizeAttribute.Options = new AuthorizeAttribute.AuthorizeAttributeOptions()
+            {
+                LoginRedirectAction = "Login",
+                LoginRedirectController = "Account"
+            };
+
+            // Added anti forgery token
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
+        
+        // TODO: Potentially remove method to create a new Survey
+        public SurveyResultSqlDAO MakeNewSurvey(IServiceProvider x)
+        {
+            return new SurveyResultSqlDAO(connectionString);
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

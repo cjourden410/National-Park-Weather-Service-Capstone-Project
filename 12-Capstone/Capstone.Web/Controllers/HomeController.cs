@@ -8,14 +8,15 @@ using Capstone.Web.Models;
 using Capstone.Web.DAL;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using TE.AuthLib;
 
 namespace Capstone.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AppController
     {
         // add reference to DAO
         private IParkSqlDAO parkDAO;
-        public HomeController(IParkSqlDAO parkDAO)
+        public HomeController(IParkSqlDAO parkDAO, IAuthProvider authProvider) : base(authProvider)
         {
             this.parkDAO = parkDAO;
         }

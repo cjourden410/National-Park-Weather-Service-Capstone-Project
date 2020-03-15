@@ -1,6 +1,7 @@
 ﻿@model SurveySearch
 @{
     ViewData["Title"] = "Index";
+    User user = ViewData["CurrentUser"] as User;
 }
 
     <section class="centeredPanel">
@@ -11,7 +12,7 @@
         <form asp-controller="Survey" asp-action="Index" method="post">
 
             @*<div asp-validation-summary="All" class="error"></div>*@
-            <table class="table">
+            <table>
                 <tr>
                     <td><label asp-for="@Model.survey.ParkCode">Favorite National Park</label></td> @*TODO: Make a pulldown and grab park names*@
                     <td>
@@ -26,8 +27,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label asp-for="@Model.survey.EmailAddress">Your email</label></td>
-                    <td><input asp-for="@Model.survey.EmailAddress" /><span asp-validation-for="@Model.survey.EmailAddress" class="error"></span></td>
+                    <td><label asp-for="@Model.survey.EmailAddress">Email</label></td>
+                    <td><input asp-for="@Model.survey.EmailAddress" value="@user.Username"/><span asp-validation-for="@Model.survey.EmailAddress" class="error"></span></td>
                 </tr>
                 <tr>
                     <td><label asp-for="@Model.survey.State">State of residence</label></td>

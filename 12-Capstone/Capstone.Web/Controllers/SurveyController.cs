@@ -6,21 +6,23 @@ using Capstone.Web.DAL;
 using Capstone.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using TE.AuthLib;
 
 namespace Capstone.Web.Controllers
 {
-    public class SurveyController : Controller
+    public class SurveyController : AppController
     {
         private ISurveyResultSqlDAO surveyResultDAO;
 
         private IParkSqlDAO parkSqlDAO;
 
-        public SurveyController(ISurveyResultSqlDAO surveyResultDAO, IParkSqlDAO parkSqlDAO)
+        public SurveyController(ISurveyResultSqlDAO surveyResultDAO, IParkSqlDAO parkSqlDAO, IAuthProvider authProvider) : base(authProvider)
         {
             this.surveyResultDAO = surveyResultDAO;
             this.parkSqlDAO = parkSqlDAO;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult Index()
         {
@@ -31,6 +33,7 @@ namespace Capstone.Web.Controllers
             return View(ss);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Index(SurveySearch ss)
         {

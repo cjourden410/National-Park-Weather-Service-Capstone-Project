@@ -18,6 +18,10 @@
 </head>
 
 <body>
+    @{
+        User user = ViewData["CurrentUser"] as User;
+
+    }
     <header>
         <img src="~/images/logo.png" alt="National Parks Geek logo" style="width:500px;height:150px;" />
     </header>
@@ -36,7 +40,28 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="headertext"><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li> @*TODO: DONE update accordingly*@
+                    <li class="headertext"><a asp-area="" asp-controller="Survey" asp-action="FavParks">Favorite Parks</a></li>
                     <li class="headertext"><a asp-area="" asp-controller="Survey" asp-action="Index">Survey</a></li> @*TODO: DONE update accordingly to survey page*@
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (user == null)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">@user.Username</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -45,6 +70,23 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
+        @{
+            string msg = (string)ViewData["Message"];
+            if (String.IsNullOrEmpty(msg))
+            {
+                // Check TempData
+                msg = (string)TempData["Message"];
+            }
+
+            if (!String.IsNullOrEmpty(msg))
+            {
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>@msg</strong>
+                </div>
+            }
+        }
+
         @RenderBody()
         <hr />
         <footer>

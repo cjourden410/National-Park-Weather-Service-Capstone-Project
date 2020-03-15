@@ -1,0 +1,35 @@
+﻿@model Login
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form asp-controller="account" asp-action="login" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td>
+                <input type="email" asp-for="Email" />
+                <span asp-validation-for="Email"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label asp-for="Password"></label></td>
+            <td>
+                <input type="password" asp-for="Password" />
+                <span asp-validation-for="Password"></span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><p>Don't have a National Park Geek Account? <a asp-controller="account" asp-action="Register">Sign up!</p></a></td>
+        </tr>
+    </table>
+</form>
