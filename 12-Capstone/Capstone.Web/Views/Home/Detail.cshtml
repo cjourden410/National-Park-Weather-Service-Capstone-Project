@@ -1,6 +1,7 @@
 ﻿@model ParkSearch
 @{
     ViewData["Title"] = "Detail";
+    User user = ViewData["CurrentUser"] as User;
 }
 
 
@@ -46,14 +47,29 @@
                 {
                     <img src="~/images/weather/@(Model.WeatherList[0].Forecast).png" />
                 }
-               
-                @if (Model.TempChoice == "F")
+                @*If user is signed in, use their preferred temp and update accordingly*@
+                @if (user != null)
                 {
-                    <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                    @if (user.TempPref == "F")
+                    {
+                        <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                    }
+                    else
+                    {
+                        <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                    }
                 }
                 else
                 {
-                    <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                    @if (Model.TempChoice == "F")
+                    {
+                        <p>High @Model.WeatherList[0].HighTemp°F || Low @Model.WeatherList[0].LowTemp°F</p>
+                    }
+                    else
+                    {
+                        <p>High @Model.tempConversion(Model.WeatherList[0].HighTemp)°C || Low @Model.tempConversion(Model.WeatherList[0].LowTemp)°C</p>
+                    }
+
                 }
 
                 <p>@Model.GetAdvisory(Model.WeatherList[0])</p>
@@ -64,7 +80,7 @@
 
             @for (int i = 1; i < Model.WeatherList.Count; i++)
             {
-                <div class="forecast" id="weather" >
+                <div class="forecast" id="weather">
                     <p> </p>
                     @if (Model.WeatherList[i].Forecast == "partly cloudy")
                     {
@@ -86,22 +102,47 @@
                 </div>
             } @*use for loop instead have the image be at WeatherList[i]*@
         </div>
-        @if (Model.TempChoice == "F")
+        @if (user != null)
         {
-            <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
-                <input asp-for="@Model.TempChoice" value="C" type="hidden" />
-                <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-                <input class="submit" type="submit" value="Switch to Celcius" />
-
-            </form>
+            @if (user.TempPref == "F")
+            {
+                <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                    @*<input asp-for="@Model.TempChoice" value="C" type="hidden" />*@
+                    <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                    <input asp-for="@user.Id" value="@user.Id" type="hidden" />
+                    <input asp-for="@user.TempPref" value="C" type="hidden" />
+                    <input class="submit" type="submit" value="Switch to Celcius" />
+                </form>
+            }
+            else
+            {
+                <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                    @*<input asp-for="@Model.TempChoice" value="F" type="hidden" />*@
+                    <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                    <input asp-for="@user.Id" value="@user.Id" type="hidden" />
+                    <input asp-for="@user.TempPref" value="F" type="hidden" />
+                    <input class="submit" type="submit" value="Switch to Fahrenheit" />
+                </form>
+            }
         }
         else
         {
-            <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
-                <input asp-for="@Model.TempChoice" value="F" type="hidden" />
-                <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
-                <input class="submit" type="submit" value="Switch to Fahrenheit" />
-
-            </form>
+            @if (Model.TempChoice == "F")
+            {
+                <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                    <input asp-for="@Model.TempChoice" value="C" type="hidden" />
+                    <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                    <input class="submit" type="submit" value="Switch to Celcius" />
+                </form>
+            }
+            else
+            {
+                <form asp-controller="Home" asp-action="Detail" asp-route-parkCode="@Model.park.ParkCode" method="post">
+                    <input asp-for="@Model.TempChoice" value="F" type="hidden" />
+                    <input asp-for="@Model.park.ParkCode" value="@Model.park.ParkCode" type="hidden" />
+                    <input class="submit" type="submit" value="Switch to Fahrenheit" />
+                </form>
+            }
         }
+
 </section>

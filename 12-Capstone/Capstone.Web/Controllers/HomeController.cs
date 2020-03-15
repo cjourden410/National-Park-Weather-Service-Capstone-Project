@@ -9,6 +9,7 @@ using Capstone.Web.DAL;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using TE.AuthLib;
+using TE.AuthLib.DAL;
 
 namespace Capstone.Web.Controllers
 {
@@ -16,9 +17,11 @@ namespace Capstone.Web.Controllers
     {
         // add reference to DAO
         private IParkSqlDAO parkDAO;
-        public HomeController(IParkSqlDAO parkDAO, IAuthProvider authProvider) : base(authProvider)
+        private IUserDAO userDAO;
+        public HomeController(IParkSqlDAO parkDAO, IUserDAO userDAO, IAuthProvider authProvider) : base(authProvider)
         {
             this.parkDAO = parkDAO;
+            this.userDAO = userDAO;
         }
 
         public IActionResult Index()
@@ -54,7 +57,7 @@ namespace Capstone.Web.Controllers
         //}
 
         [HttpGet]
-        public IActionResult Detail(string id)
+        public IActionResult Detail(string id, User user)
         {
             Park park = parkDAO.GetParkById(id);
             ParkSearch ps = new ParkSearch();
@@ -62,14 +65,31 @@ namespace Capstone.Web.Controllers
             ps.park = park;
             ps.WeatherList = parkDAO.GetWeatherByPark(id);
 
-            ps.TempChoice = HttpContext.Session.GetString("tempChoice") ?? "F";
+            if (user.Id > 0)
+            {
+                user.TempPref = HttpContext.Session.GetString("tempChoice") ?? "F";
+                ps.TempChoice = user.TempPref;
+                //userDAO.UpdateUser(user);
+            }
+            else
+            {
+                ps.TempChoice = HttpContext.Session.GetString("tempChoice") ?? "F";
+            }
+
+            //ps.TempChoice = HttpContext.Session.GetString("tempChoice") ?? "F";
 
             return View(ps);
         }
 
         [HttpPost]
-        public IActionResult Detail(string id, ParkSearch ps)
+        public IActionResult Detail(string id, ParkSearch ps, User user)
         {
+            if (user.Id > 0)
+            {
+                //user.TempPref = HttpContext.Session.GetString("tempChoice") ?? "F";
+                ps.TempChoice = user.TempPref;
+                userDAO.UpdateUser(user);
+            }
             HttpContext.Session.SetString("tempChoice", ps.TempChoice);
             ps.park = parkDAO.GetParkById(id);
             ps.WeatherList = parkDAO.GetWeatherByPark(id);
